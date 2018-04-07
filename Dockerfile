@@ -11,4 +11,3 @@ RUN apt-get install -y ruby-full
 RUN gem install bundler
 
 RUN apt-get install -y wget git tar
-RUN apt-get install -y libreadline6
