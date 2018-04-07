@@ -1,4 +1,4 @@
-FROM crystallang/crystal:0.23.1
+FROM crystallang/crystal:0.24.1
 
 # install build dependencies
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y curl && \
@@ -9,3 +9,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y curl && 
 
 RUN apt-get install -y ruby-full
 RUN gem install bundler
+
+RUN apt-get install -y wget git tar
+RUN apt-get install -y libreadline6
