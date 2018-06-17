@@ -60,3 +60,5 @@ RUN	apt-get -y update && \
 	apt-get -y install google-chrome-stable
 
 RUN apt-get install -y postgresql-client
+
+RUN npm install -g backstopjs --unsafe-perm
