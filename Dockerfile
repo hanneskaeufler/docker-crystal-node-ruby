@@ -1,4 +1,4 @@
-FROM crystallang/crystal:0.25.0
+FROM crystallang/crystal:0.25.1
 
 # install build dependencies
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y curl && \
