@@ -58,3 +58,10 @@ RUN apt-get install -y postgresql-client
 
 RUN npm install -g npm@latest
 RUN npm install -g backstopjs --unsafe-perm
+
+RUN apt-get update && apt-get install -y binutils-dev libcurl4-openssl-dev zlib1g-dev libdw-dev libiberty-dev cmake
+RUN mkdir /tmp/kcov && cd /tmp/kcov && \
+    git clone https://github.com/SimonKagstrom/kcov.git . && \
+    git checkout v36 && \
+    mkdir build && cd build && \
+    cmake .. && make && make install
