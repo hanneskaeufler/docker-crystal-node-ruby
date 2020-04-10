@@ -1,21 +1,31 @@
-FROM crystallang/crystal:0.30.1
+FROM crystallang/crystal:0.33.0
 
-# install build dependencies
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y curl && \
-    curl -sL https://deb.nodesource.com/setup_9.x | bash - && \
-    apt-get install -y nodejs
+RUN apt-get update && apt-get install -y wget
 
-RUN apt-get install -y wget git tar
+RUN wget --quiet -O - https://deb.nodesource.com/setup_12.x | bash -
 
-RUN	apt-get -y update
-RUN apt-get install -y \
+RUN wget --quiet -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/chrome.list
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN	apt-get -y update && apt-get install -y \
+    binutils-dev \
+    ca-certificates \
+    cmake \
+    fonts-liberation \
     gconf-service \
+    git \
+    google-chrome-stable \
+    libappindicator1 \
     libasound2 \
     libatk1.0-0 \
     libc6 \
     libcairo2 \
     libcups2 \
+    libcurl4-openssl-dev \
     libdbus-1-3 \
+    libdw-dev \
     libexpat1 \
     libfontconfig1 \
     libgcc1 \
@@ -23,7 +33,9 @@ RUN apt-get install -y \
     libgdk-pixbuf2.0-0 \
     libglib2.0-0 \
     libgtk-3-0 \
+    libiberty-dev \
     libnspr4 \
+    libnss3 \
     libpango-1.0-0 \
     libpangocairo-1.0-0 \
     libstdc++6 \
@@ -40,26 +52,16 @@ RUN apt-get install -y \
     libxrender1 \
     libxss1 \
     libxtst6 \
-    ca-certificates \
-    fonts-liberation \
-    libappindicator1 \
-    libnss3 \
     lsb-release \
+    nodejs \
+    postgresql-client \
+    tar \
     xdg-utils \
-    wget
+    zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://dl-ssl.google.com/linux/linux_signing_key.pub && apt-key add linux_signing_key.pub && \
-    echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/chrome.list
+RUN npm install -g npm@6.13.4
 
-RUN	apt-get -y update && \
-	apt-get -y install google-chrome-stable
-
-RUN apt-get install -y postgresql-client
-
-RUN npm install -g npm@latest
-RUN npm install -g backstopjs --unsafe-perm
-
-RUN apt-get update && apt-get install -y binutils-dev libcurl4-openssl-dev zlib1g-dev libdw-dev libiberty-dev cmake
 RUN mkdir /tmp/kcov && cd /tmp/kcov && \
     git clone https://github.com/SimonKagstrom/kcov.git . && \
     git checkout v36 && \
